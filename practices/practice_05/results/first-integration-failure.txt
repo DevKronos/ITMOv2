@@ -1,0 +1,24 @@
+Синтаксис Python: OK
+..........................................F..................            [100%]
+=================================== FAILURES ===================================
+______________________ test_read_city_errors_do_not_write ______________________
+
+promo = {'network': 'rostics', 'source_id': 'test', 'source_url': 'https://rostics.ru/promo/test', 'title': 'Скидка 20%', ...}
+
+    def test_read_city_errors_do_not_write(promo):
+        seed_city_notes(promo)
+        with TestClient(app) as client:
+            storage.set_city('Москва');before=storage.read_state()
+            stale=client.post('/notifications/read-city',data={'expected_city':'Санкт-Петербург'})
+            assert 'Город изменился.' in stale.text
+            for value in ('','   ','а'*101):
+>               assert 'Сохраните город перед отметкой уведомлений' in client.post('/notifications/read-city',data={'expected_city':value}).text
+E               assert 'Сохраните город перед отметкой уведомлений' in '{"detail":[{"type":"missing","loc":["body","expected_city"],"msg":"Field required","input":null}]}'
+E                +  where '{"detail":[{"type":"missing","loc":["body","expected_city"],"msg":"Field required","input":null}]}' = <Response [422 Unprocessable Content]>.text
+E                +    where <Response [422 Unprocessable Content]> = post('/notifications/read-city', data={'expected_city': ''})
+E                +      where post = <starlette.testclient.TestClient object at 0x728ddd4c1150>.post
+
+tests/test_sdd_features.py:104: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_sdd_features.py::test_read_city_errors_do_not_write - asser...
+1 failed, 60 passed in 20.32s
