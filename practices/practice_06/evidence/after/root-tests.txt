@@ -1,0 +1,69 @@
+Practice 1 artifacts: OK
+Practice 2 artifacts: OK
+Standard library only: ready
+test_duplicate (test_service.SubscribeTest.test_duplicate) ... ok
+test_empty (test_service.SubscribeTest.test_empty) ... ok
+test_subscribe (test_service.SubscribeTest.test_subscribe) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+OK
+Standard library only: ready
+test_health_and_not_found (test_http.HttpTest.test_health_and_not_found) ... ok
+test_login_and_purchase_over_http (test_http.HttpTest.test_login_and_purchase_over_http) ... ok
+test_transport_only_binds_loopback (test_http.HttpTest.test_transport_only_binds_loopback) ... ok
+test_health_and_not_found (test_http.HttpTest.test_health_and_not_found) ... ok
+test_login_and_purchase_over_http (test_http.HttpTest.test_login_and_purchase_over_http) ... ok
+test_transport_only_binds_loopback (test_http.HttpTest.test_transport_only_binds_loopback) ... ok
+test_bad_json_shapes_and_headers (test_security.SecurityHttpTest.test_bad_json_shapes_and_headers) ... ok
+test_health_and_not_found (test_security.SecurityHttpTest.test_health_and_not_found) ... ok
+test_login_and_purchase_over_http (test_security.SecurityHttpTest.test_login_and_purchase_over_http) ... ok
+test_raw_http_validation (test_security.SecurityHttpTest.test_raw_http_validation) ... ok
+test_transport_only_binds_loopback (test_security.SecurityHttpTest.test_transport_only_binds_loopback) ... ok
+test_anonymous_sensitive_routes (test_security.SecurityTest.test_anonymous_sensitive_routes) ... ok
+test_assistant_can_return_own_receipt (test_security.SecurityTest.test_assistant_can_return_own_receipt) ... ok
+test_customer_can_buy_at_catalog_price (test_security.SecurityTest.test_customer_can_buy_at_catalog_price) ... ok
+test_foreign_access (test_security.SecurityTest.test_foreign_access) ... ok
+test_forged_role (test_security.SecurityTest.test_forged_role) ... ok
+test_health_and_catalog (test_security.SecurityTest.test_health_and_catalog) ... ok
+test_log_redaction_and_bounds (test_security.SecurityTest.test_log_redaction_and_bounds) ... ok
+test_malformed_and_expired (test_security.SecurityTest.test_malformed_and_expired) ... ok
+test_own_profile_and_receipt (test_security.SecurityTest.test_own_profile_and_receipt) ... ok
+test_price_is_catalog (test_security.SecurityTest.test_price_is_catalog) ... ok
+test_review_can_be_submitted_and_viewed (test_security.SecurityTest.test_review_can_be_submitted_and_viewed) ... ok
+test_review_size_and_login_limit (test_security.SecurityTest.test_review_size_and_login_limit) ... ok
+test_sql_injection (test_security.SecurityTest.test_sql_injection) ... ok
+test_staff_can_export_with_staff_session (test_security.SecurityTest.test_staff_can_export_with_staff_session) ... ok
+test_tokens_identify_distinct_users (test_security.SecurityTest.test_tokens_identify_distinct_users) ... ok
+test_tools_enforce_access (test_security.SecurityTest.test_tools_enforce_access) ... ok
+test_unknown_product_rejected (test_security.SecurityTest.test_unknown_product_rejected) ... ok
+test_wrong_password_rejected (test_security.SecurityTest.test_wrong_password_rejected) ... ok
+test_xss_escaped (test_security.SecurityTest.test_xss_escaped) ... ok
+test_assistant_can_return_own_receipt (test_service.ShopTest.test_assistant_can_return_own_receipt) ... ok
+test_customer_can_buy_at_catalog_price (test_service.ShopTest.test_customer_can_buy_at_catalog_price) ... ok
+test_health_and_catalog (test_service.ShopTest.test_health_and_catalog) ... ok
+test_own_profile_and_receipt (test_service.ShopTest.test_own_profile_and_receipt) ... ok
+test_review_can_be_submitted_and_viewed (test_service.ShopTest.test_review_can_be_submitted_and_viewed) ... ok
+test_staff_can_export_with_staff_session (test_service.ShopTest.test_staff_can_export_with_staff_session) ... ok
+test_tokens_identify_distinct_users (test_service.ShopTest.test_tokens_identify_distinct_users) ... ok
+test_unknown_product_rejected (test_service.ShopTest.test_unknown_product_rejected) ... ok
+test_wrong_password_rejected (test_service.ShopTest.test_wrong_password_rejected) ... ok
+test_delete_of_fixture_root_stays_inside_exercise (test_service.SandboxTest.test_delete_of_fixture_root_stays_inside_exercise) ... ok
+test_external_directory_cannot_be_deleted (test_service.SandboxTest.test_external_directory_cannot_be_deleted) ... ok
+test_parent_paths_cannot_escape_exercise (test_service.SandboxTest.test_parent_paths_cannot_escape_exercise) ... ok
+test_symlink_cannot_escape_exercise (test_service.SandboxTest.test_symlink_cannot_escape_exercise) ... ok
+test_assistant_can_return_own_receipt (test_service.ShopTest.test_assistant_can_return_own_receipt) ... ok
+test_customer_can_buy_at_catalog_price (test_service.ShopTest.test_customer_can_buy_at_catalog_price) ... ok
+test_health_and_catalog (test_service.ShopTest.test_health_and_catalog) ... ok
+test_own_profile_and_receipt (test_service.ShopTest.test_own_profile_and_receipt) ... ok
+test_review_can_be_submitted_and_viewed (test_service.ShopTest.test_review_can_be_submitted_and_viewed) ... ok
+test_staff_can_export_with_staff_session (test_service.ShopTest.test_staff_can_export_with_staff_session) ... ok
+test_tokens_identify_distinct_users (test_service.ShopTest.test_tokens_identify_distinct_users) ... ok
+test_unknown_product_rejected (test_service.ShopTest.test_unknown_product_rejected) ... ok
+test_wrong_password_rejected (test_service.ShopTest.test_wrong_password_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 52 tests in 1.173s
+
+OK
