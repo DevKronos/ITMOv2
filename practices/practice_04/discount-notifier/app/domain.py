@@ -6,6 +6,20 @@ from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
 TZ = ZoneInfo('Europe/Moscow')
+
+
+def search_promotions(promotions, query):
+    """Поиск по сохранённому тексту; исходный список и записи не меняются."""
+    def normalize(value):
+        return ' '.join(value.casefold().replace('ё', 'е').split())
+
+    needle = normalize(query)
+    if len(needle) > 100:
+        raise ValueError('Поисковый запрос — до 100 символов')
+    return [p for p in promotions if not needle or any(
+        needle in normalize(p[field]) for field in ('title', 'conditions'))]
+
+
 MONTHS = dict(zip('января февраля марта апреля мая июня июля августа сентября октября ноября декабря'.split(), range(1, 13)))
 WEEKDAYS = {'понедельник': 0, 'вторник': 1, 'сред': 2, 'четверг': 3, 'пятниц': 4, 'суббот': 5, 'воскресень': 6}
 

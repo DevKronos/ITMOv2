@@ -1,0 +1,9 @@
+Task status: ✓ Complete
+
+Specs to update:
+  catalog-search: create
+Applying changes to openspec/specs/catalog-search/spec.md:
+  + 3 added
+Totals: + 3, ~ 0, - 0, → 0
+Specs updated successfully.
+Change 'search-saved-catalog' archived as '2026-10-25-search-saved-catalog'.

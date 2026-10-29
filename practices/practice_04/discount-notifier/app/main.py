@@ -7,7 +7,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from app import storage
-from app.domain import city_status,time_status,normalize_city
+from app.domain import city_status,time_status,normalize_city,search_promotions
 from app.service import synchronize,generate_notifications,preview_notifications
 
 ROOT=Path(__file__).resolve().parent
@@ -52,12 +52,16 @@ async def same_origin_mutations(request:Request,call_next):
 @app.get('/')
 def index(request:Request):
     state=storage.read_state()
+    query=request.query_params.get('q','');search_error=''
+    catalog_empty=not state['promotions']
+    try: state['promotions']=search_promotions(state['promotions'],query)
+    except ValueError as exc: search_error=str(exc)
     for p in state['promotions']:
         p['territory_label']=TERRITORY[city_status(p,state['city'])]
         p['time_label']=TIME[time_status(p)]
     networks={n['key']:n['name'] for n in state['networks']}
     unread=sum(not n['is_read'] and n['city_key']==normalize_city(state['city']) for n in state['notifications'])
-    return templates.TemplateResponse(request=request,name='index.html',context={**state,'network_names':networks,'unread':unread,'background':getattr(app.state,'background',False),'interval':getattr(app.state,'interval',1800),'message':request.query_params.get('message','')})
+    return templates.TemplateResponse(request=request,name='index.html',context={**state,'query':query,'search_error':search_error,'catalog_empty':catalog_empty,'network_names':networks,'unread':unread,'background':getattr(app.state,'background',False),'interval':getattr(app.state,'interval',1800),'message':request.query_params.get('message','')})
 
 
 def back(message=''):
@@ -94,6 +98,13 @@ def check_notifications(): return back(f'Создано уведомлений: 
 def read(notification_id:int):
     if not storage.mark_read(notification_id): raise HTTPException(404,'Уведомление не найдено')
     return back()
+
+
+@app.post('/notifications/read-city')
+def read_city(expected_city:str=Form(...)):
+    try: count=storage.mark_city_read(expected_city)
+    except ValueError as exc: return back(str(exc))
+    return back(f'Отмечено прочитанными: {count}')
 
 
 @app.get('/api/state')
