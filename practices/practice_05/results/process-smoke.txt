@@ -1,0 +1,2 @@
+Историческое демо на 07.10.2026; отдельная база: /tmp/lab05-9knkpmki
+{"status": "PASS", "catalog": 13, "search_coupon": 8, "marked_current_city": 7, "history": 15, "restart_persistence": true, "cross_origin": 403}

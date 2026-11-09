@@ -156,5 +156,20 @@ def mark_read(notification_id):
         return bool(c.execute('UPDATE notifications SET is_read=1 WHERE id=?',(notification_id,)).rowcount)
 
 
+def mark_city_read(expected_city):
+    """Город формы — предусловие; проверка и отметка одной транзакцией."""
+    if not expected_city.strip() or len(expected_city)>100:
+        raise ValueError('Сохраните город перед отметкой уведомлений')
+    with connection() as c:
+        c.execute('BEGIN IMMEDIATE')
+        current=normalize_city(c.execute('SELECT city FROM preferences WHERE id=1').fetchone()[0])
+        if not current:
+            raise ValueError('Сохраните город перед отметкой уведомлений')
+        if current!=normalize_city(expected_city):
+            raise ValueError('Город изменился. Обновите страницу и повторите действие')
+        return c.execute('UPDATE notifications SET is_read=1 WHERE city_key=? AND is_read=0',
+                         (current,)).rowcount
+
+
 def record_sync(result):
     with connection() as c: c.execute('INSERT INTO sync_runs(created_at,result) VALUES(?,?)',(now_iso(),json.dumps(result,ensure_ascii=False)))

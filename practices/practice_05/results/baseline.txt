@@ -1,0 +1,9 @@
+25.10.2026
+Начальный git status --short: пусто.
+node --version: v22.22.1
+openspec --version: 1.14.1
+Команда: .venv/bin/python scripts/check.py
+Среда: вне sandbox; код выхода 0.
+Синтаксис Python: OK
+52 passed in 19.87s
+Первый запуск внутри sandbox: сбои MCP и зависание; успешным не считается.
