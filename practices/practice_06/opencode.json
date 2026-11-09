@@ -9,7 +9,7 @@
       "permission": {
         "*": "deny",
         "read": {
-          "*": "deny",
+          "*": "deny"
         }
       }
     },
@@ -17,7 +17,9 @@
       "description": "Model under test: produces a shop action without executing tools",
       "mode": "primary",
       "prompt": "{file:./planner-system.txt}",
-      "permission": { "*": "deny" }
+      "permission": {
+        "*": "deny"
+      }
     }
   }
 }

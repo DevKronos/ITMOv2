@@ -1,0 +1,5 @@
+# Пустые журналы ранних неудачных запусков LLM
+/before/model-clean.jsonl
+/before/model-clean.stderr
+/before/model-fallback.jsonl
+/before/model-fallback.stderr

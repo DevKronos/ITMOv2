@@ -1,0 +1,247 @@
+test_health_and_not_found (test_http.HttpTest.test_health_and_not_found) ... ok
+test_login_and_purchase_over_http (test_http.HttpTest.test_login_and_purchase_over_http) ... ok
+test_transport_only_binds_loopback (test_http.HttpTest.test_transport_only_binds_loopback) ... ok
+test_bad_json_shapes_and_headers (test_security.SecurityHttpTest.test_bad_json_shapes_and_headers) ... FAIL
+test_health_and_not_found (test_security.SecurityHttpTest.test_health_and_not_found) ... ok
+test_login_and_purchase_over_http (test_security.SecurityHttpTest.test_login_and_purchase_over_http) ... ok
+test_transport_only_binds_loopback (test_security.SecurityHttpTest.test_transport_only_binds_loopback) ... ok
+test_anonymous_sensitive_routes (test_security.SecurityTest.test_anonymous_sensitive_routes) ... 
+  test_anonymous_sensitive_routes (test_security.SecurityTest.test_anonymous_sensitive_routes) (path='/profile?id=1') ... FAIL
+  test_anonymous_sensitive_routes (test_security.SecurityTest.test_anonymous_sensitive_routes) (path='/search') ... FAIL
+  test_anonymous_sensitive_routes (test_security.SecurityTest.test_anonymous_sensitive_routes) (path='/orders') ... FAIL
+  test_anonymous_sensitive_routes (test_security.SecurityTest.test_anonymous_sensitive_routes) (path='/files') ... FAIL
+  test_anonymous_sensitive_routes (test_security.SecurityTest.test_anonymous_sensitive_routes) (path='/debug/logs') ... FAIL
+  test_anonymous_sensitive_routes (test_security.SecurityTest.test_anonymous_sensitive_routes) (path='/assistant/context') ... FAIL
+  test_anonymous_sensitive_routes (test_security.SecurityTest.test_anonymous_sensitive_routes) (path='/admin/export') ... FAIL
+test_assistant_can_return_own_receipt (test_security.SecurityTest.test_assistant_can_return_own_receipt) ... ok
+test_customer_can_buy_at_catalog_price (test_security.SecurityTest.test_customer_can_buy_at_catalog_price) ... ok
+test_foreign_access (test_security.SecurityTest.test_foreign_access) ... 
+  test_foreign_access (test_security.SecurityTest.test_foreign_access) (path='/profile?id=2') ... FAIL
+  test_foreign_access (test_security.SecurityTest.test_foreign_access) (path='/assistant/context?order_id=2') ... FAIL
+  test_foreign_access (test_security.SecurityTest.test_foreign_access) (path='/files?user=bob') ... FAIL
+  test_foreign_access (test_security.SecurityTest.test_foreign_access) (path='/files?path=../../private/operator-note.txt') ... FAIL
+test_foreign_access (test_security.SecurityTest.test_foreign_access) ... FAIL
+test_forged_role (test_security.SecurityTest.test_forged_role) ... FAIL
+test_health_and_catalog (test_security.SecurityTest.test_health_and_catalog) ... ok
+test_log_redaction_and_bounds (test_security.SecurityTest.test_log_redaction_and_bounds) ... FAIL
+test_malformed_and_expired (test_security.SecurityTest.test_malformed_and_expired) ... ERROR
+test_own_profile_and_receipt (test_security.SecurityTest.test_own_profile_and_receipt) ... ok
+test_price_is_catalog (test_security.SecurityTest.test_price_is_catalog) ... FAIL
+test_review_can_be_submitted_and_viewed (test_security.SecurityTest.test_review_can_be_submitted_and_viewed) ... ok
+test_review_size_and_login_limit (test_security.SecurityTest.test_review_size_and_login_limit) ... FAIL
+test_sql_injection (test_security.SecurityTest.test_sql_injection) ... FAIL
+test_staff_can_export_with_staff_session (test_security.SecurityTest.test_staff_can_export_with_staff_session) ... ok
+test_tokens_identify_distinct_users (test_security.SecurityTest.test_tokens_identify_distinct_users) ... ok
+test_tools_enforce_access (test_security.SecurityTest.test_tools_enforce_access) ... FAIL
+test_unknown_product_rejected (test_security.SecurityTest.test_unknown_product_rejected) ... ok
+test_wrong_password_rejected (test_security.SecurityTest.test_wrong_password_rejected) ... ok
+test_xss_escaped (test_security.SecurityTest.test_xss_escaped) ... FAIL
+test_assistant_can_return_own_receipt (test_service.ShopTest.test_assistant_can_return_own_receipt) ... ok
+test_customer_can_buy_at_catalog_price (test_service.ShopTest.test_customer_can_buy_at_catalog_price) ... ok
+test_health_and_catalog (test_service.ShopTest.test_health_and_catalog) ... ok
+test_own_profile_and_receipt (test_service.ShopTest.test_own_profile_and_receipt) ... ok
+test_review_can_be_submitted_and_viewed (test_service.ShopTest.test_review_can_be_submitted_and_viewed) ... ok
+test_staff_can_export_with_staff_session (test_service.ShopTest.test_staff_can_export_with_staff_session) ... ok
+test_tokens_identify_distinct_users (test_service.ShopTest.test_tokens_identify_distinct_users) ... ok
+test_unknown_product_rejected (test_service.ShopTest.test_unknown_product_rejected) ... ok
+test_wrong_password_rejected (test_service.ShopTest.test_wrong_password_rejected) ... ok
+
+======================================================================
+ERROR: test_malformed_and_expired (test_security.SecurityTest.test_malformed_and_expired)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 63, in test_malformed_and_expired
+    self.assertEqual(self.request('POST', '/assistant/execute', {'decision': decision}, auth)[0], 400)
+                     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/practice06-before/test_service.py", line 18, in request
+    return self.shop.dispatch(method, path, body or {}, headers or {})
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/practice06-before/service.py", line 101, in dispatch
+    tool, arguments = decision["tool"], decision.get("arguments", {})
+                      ~~~~~~~~^^^^^^^^
+TypeError: 'NoneType' object is not subscriptable
+
+======================================================================
+FAIL: test_bad_json_shapes_and_headers (test_security.SecurityHttpTest.test_bad_json_shapes_and_headers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 80, in test_bad_json_shapes_and_headers
+    self.assertEqual(self.call('POST', '/login', body)[0], 400)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 500 != 400
+
+======================================================================
+FAIL: test_anonymous_sensitive_routes (test_security.SecurityTest.test_anonymous_sensitive_routes) (path='/profile?id=1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 12, in test_anonymous_sensitive_routes
+    self.assertEqual(self.request('GET', path)[0], 401)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 401
+
+======================================================================
+FAIL: test_anonymous_sensitive_routes (test_security.SecurityTest.test_anonymous_sensitive_routes) (path='/search')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 12, in test_anonymous_sensitive_routes
+    self.assertEqual(self.request('GET', path)[0], 401)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 401
+
+======================================================================
+FAIL: test_anonymous_sensitive_routes (test_security.SecurityTest.test_anonymous_sensitive_routes) (path='/orders')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 12, in test_anonymous_sensitive_routes
+    self.assertEqual(self.request('GET', path)[0], 401)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 401
+
+======================================================================
+FAIL: test_anonymous_sensitive_routes (test_security.SecurityTest.test_anonymous_sensitive_routes) (path='/files')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 12, in test_anonymous_sensitive_routes
+    self.assertEqual(self.request('GET', path)[0], 401)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 401
+
+======================================================================
+FAIL: test_anonymous_sensitive_routes (test_security.SecurityTest.test_anonymous_sensitive_routes) (path='/debug/logs')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 12, in test_anonymous_sensitive_routes
+    self.assertEqual(self.request('GET', path)[0], 401)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 401
+
+======================================================================
+FAIL: test_anonymous_sensitive_routes (test_security.SecurityTest.test_anonymous_sensitive_routes) (path='/assistant/context')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 12, in test_anonymous_sensitive_routes
+    self.assertEqual(self.request('GET', path)[0], 401)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 401
+
+======================================================================
+FAIL: test_anonymous_sensitive_routes (test_security.SecurityTest.test_anonymous_sensitive_routes) (path='/admin/export')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 12, in test_anonymous_sensitive_routes
+    self.assertEqual(self.request('GET', path)[0], 401)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 403 != 401
+
+======================================================================
+FAIL: test_foreign_access (test_security.SecurityTest.test_foreign_access) (path='/profile?id=2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 18, in test_foreign_access
+    self.assertEqual(self.request('GET', path, headers=auth)[0], 403)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 403
+
+======================================================================
+FAIL: test_foreign_access (test_security.SecurityTest.test_foreign_access) (path='/assistant/context?order_id=2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 18, in test_foreign_access
+    self.assertEqual(self.request('GET', path, headers=auth)[0], 403)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 403
+
+======================================================================
+FAIL: test_foreign_access (test_security.SecurityTest.test_foreign_access) (path='/files?user=bob')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 18, in test_foreign_access
+    self.assertEqual(self.request('GET', path, headers=auth)[0], 403)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 403
+
+======================================================================
+FAIL: test_foreign_access (test_security.SecurityTest.test_foreign_access) (path='/files?path=../../private/operator-note.txt')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 18, in test_foreign_access
+    self.assertEqual(self.request('GET', path, headers=auth)[0], 403)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 403
+
+======================================================================
+FAIL: test_foreign_access (test_security.SecurityTest.test_foreign_access)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 19, in test_foreign_access
+    self.assertTrue(all(row['owner'] == 1 for row in self.request('GET', '/orders', headers=auth)[1]))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_forged_role (test_security.SecurityTest.test_forged_role)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 29, in test_forged_role
+    self.assertEqual(self.request('GET', '/admin/export', headers={**self.login(), 'X-Role': 'staff'})[0], 403)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 403
+
+======================================================================
+FAIL: test_log_redaction_and_bounds (test_security.SecurityTest.test_log_redaction_and_bounds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 44, in test_log_redaction_and_bounds
+    self.assertEqual(self.request('GET', '/debug/logs', headers=auth)[0], 403)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 403
+
+======================================================================
+FAIL: test_price_is_catalog (test_security.SecurityTest.test_price_is_catalog)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 34, in test_price_is_catalog
+    self.assertEqual(self.request('POST', '/orders', {'product': 'chair', 'price': price}, self.login())[1]['price'], 5000)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: -1 != 5000
+
+======================================================================
+FAIL: test_review_size_and_login_limit (test_security.SecurityTest.test_review_size_and_login_limit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 70, in test_review_size_and_login_limit
+    self.assertEqual(self.request('POST', '/reviews', {'product': 'chair', 'text': 'x' * 2001}, auth)[0], 400)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 201 != 400
+
+======================================================================
+FAIL: test_sql_injection (test_security.SecurityTest.test_sql_injection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 24, in test_sql_injection
+    self.assertEqual(self.request('GET', path, headers=auth)[0], 400)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 400
+
+======================================================================
+FAIL: test_tools_enforce_access (test_security.SecurityTest.test_tools_enforce_access)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 56, in test_tools_enforce_access
+    self.assertEqual(self.request('POST', '/assistant/execute', {'decision': {'tool': tool, 'arguments': args}}, auth)[0], 403)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 403
+
+======================================================================
+FAIL: test_xss_escaped (test_security.SecurityTest.test_xss_escaped)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/practice06-before/test_security.py", line 39, in test_xss_escaped
+    self.assertNotIn('<script>', result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: '<script>' unexpectedly found in '<html><body><p><script>alert(1)</script></p></body></html>'
+
+----------------------------------------------------------------------
+Ran 35 tests in 1.132s
+
+FAILED (failures=20, errors=1)
