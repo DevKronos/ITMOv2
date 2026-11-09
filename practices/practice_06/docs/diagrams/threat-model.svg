@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-labelledby="title desc">
+<title id="title">Потоки данных Mini Shop</title>
+<desc id="desc">Клиент обращается к HTTP обработчику и добавляет отзывы. Сессия определяет доступ к SQLite и чекам. Отзывы и данные SQLite поступают в контекст помощника. Ответ LLM проверяется исполнителем перед доступом к чекам. Сотрудник получает полномочия через сессию.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/></marker></defs>
+<rect width="1000" height="1000" fill="#fff"/>
+<g fill="none" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)">
+<path d="M500 85 V130"/>
+<path d="M500 190 V235"/>
+<path d="M500 295 V350"/>
+<path d="M500 410 V475"/>
+<path d="M500 535 V580"/>
+<path d="M500 640 V685"/>
+<path d="M500 745 V790"/>
+<path d="M500 850 V910"/>
+<path d="M305 55 H155 V350"/>
+<path d="M285 380 H300 V505 H325"/>
+<path d="M835 190 V265 H675"/>
+<path d="M675 265 H975 V940 H695"/>
+</g>
+<rect x="305.0" y="25" width="390" height="60" rx="10" fill="#fff7ed" stroke="#475569" stroke-width="1.5"/>
+<text x="500" y="55.0" text-anchor="middle" dominant-baseline="central" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" fill="#0f172a">Клиент / недоверенный HTTP</text>
+<rect x="325.0" y="130" width="350" height="60" rx="10" fill="#eff6ff" stroke="#475569" stroke-width="1.5"/>
+<text x="500" y="160.0" text-anchor="middle" dominant-baseline="central" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" fill="#0f172a">HTTP обработчик</text>
+<rect x="325.0" y="235" width="350" height="60" rx="10" fill="#eff6ff" stroke="#475569" stroke-width="1.5"/>
+<text x="500" y="265.0" text-anchor="middle" dominant-baseline="central" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" fill="#0f172a">Сессия: владелец и роль</text>
+<rect x="325.0" y="350" width="350" height="60" rx="10" fill="#eff6ff" stroke="#475569" stroke-width="1.5"/>
+<text x="500" y="380.0" text-anchor="middle" dominant-baseline="central" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" fill="#0f172a">SQLite: профили и заказы</text>
+<rect x="25.0" y="350" width="260" height="60" rx="10" fill="#fff7ed" stroke="#475569" stroke-width="1.5"/>
+<text x="155" y="380.0" text-anchor="middle" dominant-baseline="central" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" fill="#0f172a">Недоверенные отзывы</text>
+<rect x="695.0" y="130" width="280" height="60" rx="10" fill="#eff6ff" stroke="#475569" stroke-width="1.5"/>
+<text x="835" y="149.0" text-anchor="middle" dominant-baseline="central" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" fill="#0f172a">Сотрудник</text>
+<text x="835" y="171.0" text-anchor="middle" dominant-baseline="central" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" fill="#0f172a">с серверной ролью</text>
+<rect x="325.0" y="475" width="350" height="60" rx="10" fill="#eff6ff" stroke="#475569" stroke-width="1.5"/>
+<text x="500" y="505.0" text-anchor="middle" dominant-baseline="central" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" fill="#0f172a">Контекст помощника</text>
+<rect x="305.0" y="580" width="390" height="60" rx="10" fill="#eff6ff" stroke="#475569" stroke-width="1.5"/>
+<text x="500" y="610.0" text-anchor="middle" dominant-baseline="central" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" fill="#0f172a">Отдельная LLM без инструментов</text>
+<rect x="305.0" y="685" width="390" height="60" rx="10" fill="#fff7ed" stroke="#475569" stroke-width="1.5"/>
+<text x="500" y="715.0" text-anchor="middle" dominant-baseline="central" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" fill="#0f172a">Недоверенное JSON решение</text>
+<rect x="280.0" y="790" width="440" height="60" rx="10" fill="#eff6ff" stroke="#475569" stroke-width="1.5"/>
+<text x="500" y="809.0" text-anchor="middle" dominant-baseline="central" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" fill="#0f172a">Исполнитель: проверка сессии</text>
+<text x="500" y="831.0" text-anchor="middle" dominant-baseline="central" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" fill="#0f172a">и allowlist</text>
+<rect x="305.0" y="910" width="390" height="60" rx="10" fill="#eff6ff" stroke="#475569" stroke-width="1.5"/>
+<text x="500" y="940.0" text-anchor="middle" dominant-baseline="central" font-family="DejaVu Sans, Arial, sans-serif" font-size="18" fill="#0f172a">Разрешённые чеки в Sandbox</text>
+</svg>
