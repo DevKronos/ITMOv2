@@ -1,0 +1,473 @@
+{
+  "name": "Practice 7.2. Issue labeling",
+  "nodes": [
+    {
+      "parameters": {
+        "owner": "DevKronos",
+        "repository": "TestRepo",
+        "events": [
+          "issues"
+        ],
+        "options": {}
+      },
+      "id": "17a04dc5-fb3c-44a9-95bb-340aa67f748d",
+      "name": "GitHub Issues Trigger",
+      "type": "n8n-nodes-base.githubTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        208
+      ],
+      "webhookId": "2b2f6573-1da2-4ec4-a287-351e8faba8ac",
+      "credentials": {
+        "githubApi": {
+          "id": "zl9kQUo8m36TWJxe",
+          "name": "GitHub account 49"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const p=$input.first().json.body ?? $input.first().json;\nif(p.action!=='opened'||!p.issue||p.issue.pull_request)return [];\nreturn [{json:{owner:p.repository.owner.login,repo:p.repository.name,issue_number:p.issue.number,title:p.issue.title||'',body:p.issue.body||'',author:p.issue.user?.login||''}}];"
+      },
+      "id": "f768ec2f-ccc9-4f75-9aca-9d04071f9fb9",
+      "name": "Only opened Issues",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "PUlL6S76Bq21Brsu",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/PUlL6S76Bq21Brsu",
+          "cachedResultName": "Practice 7.2. AI Issue Classifier"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "title": "={{ $json.title }}",
+            "body": "={{ $json.body ?? '' }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "id": "7a8c367d-2fd9-46ff-b8a9-0868f8bd0b18",
+      "name": "Execute AI Classifier",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const base=$('Only opened Issues').first().json;\nconst result=$input.first().json;\nconst type=['bug','task','feature'].includes(result.type)&&Number(result.confidence)>=0.8?result.type:'needs-triage';\nreturn [{json:{...base,type,confidence:Number(result.confidence)||0}}];"
+      },
+      "id": "4944ae72-3dc2-4d7d-b0ec-e7735113f2eb",
+      "name": "Route classification",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "bug",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "bug"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "task",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "task"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "feature",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "feature"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "needs-triage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "needs-triage"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a339c670-3dad-4115-950a-ef5be6488b19",
+      "name": "Switch Issue Type",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        944,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ 'https://api.github.com/repos/' + $('Route classification').first().json.owner + '/' + $('Route classification').first().json.repo + '/issues/' + $('Route classification').first().json.issue_number + '/labels' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2022-11-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({labels:['bug']}) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "d16ab53d-5e77-4427-8ba8-f86fe32b831b",
+      "name": "Label: bug",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1184,
+        0
+      ],
+      "credentials": {
+        "githubApi": {
+          "id": "zl9kQUo8m36TWJxe",
+          "name": "GitHub account 49"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ 'https://api.github.com/repos/' + $('Route classification').first().json.owner + '/' + $('Route classification').first().json.repo + '/issues/' + $('Route classification').first().json.issue_number + '/labels' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2022-11-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({labels:['task']}) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "74589988-f97d-4616-908b-38bfd6f12b90",
+      "name": "Label: task",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1184,
+        176
+      ],
+      "credentials": {
+        "githubApi": {
+          "id": "zl9kQUo8m36TWJxe",
+          "name": "GitHub account 49"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ 'https://api.github.com/repos/' + $('Route classification').first().json.owner + '/' + $('Route classification').first().json.repo + '/issues/' + $('Route classification').first().json.issue_number + '/labels' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2022-11-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({labels:['feature']}) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "3e58cf8c-014b-4f1d-8dfe-08b091a3ae28",
+      "name": "Label: feature",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1184,
+        352
+      ],
+      "credentials": {
+        "githubApi": {
+          "id": "zl9kQUo8m36TWJxe",
+          "name": "GitHub account 49"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ 'https://api.github.com/repos/' + $('Route classification').first().json.owner + '/' + $('Route classification').first().json.repo + '/issues/' + $('Route classification').first().json.issue_number + '/labels' }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2022-11-28"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({labels:['needs-triage']}) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "0bc8d6a9-b755-405a-a0ed-07ac208ee04a",
+      "name": "Label: needs-triage",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1184,
+        512
+      ],
+      "credentials": {
+        "githubApi": {
+          "id": "zl9kQUo8m36TWJxe",
+          "name": "GitHub account 49"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "GitHub Issues Trigger": {
+      "main": [
+        [
+          {
+            "node": "Only opened Issues",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Only opened Issues": {
+      "main": [
+        [
+          {
+            "node": "Execute AI Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute AI Classifier": {
+      "main": [
+        [
+          {
+            "node": "Route classification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route classification": {
+      "main": [
+        [
+          {
+            "node": "Switch Issue Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Issue Type": {
+      "main": [
+        [
+          {
+            "node": "Label: bug",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Label: task",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Label: feature",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Label: needs-triage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "97b99352-9d5b-4aaa-a0ff-de7f75faf8ff",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "68dbbb4e8fa686c3fd4e9982ade6836edb66976f207553e7ac22df961581c78c"
+  },
+  "nodeGroups": [],
+  "id": "5vgPuq5bBRpyO2fB",
+  "tags": []
+}
