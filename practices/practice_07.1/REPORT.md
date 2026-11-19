@@ -93,7 +93,7 @@
 
 **Тестовый репозиторий:** [DevKronos/TestRepo](https://github.com/DevKronos/TestRepo)
 
-**Тестовый Pull Request:** [ВСТАВИТЬ ССЫЛКУ НА PR]
+**Тестовый Pull Request:** [PullRequest](https://github.com/DevKronos/TestRepo/pull/3)
 
 | Проверяемая функциональность | Результат |
 |---|---|
