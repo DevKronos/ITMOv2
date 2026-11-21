@@ -76,6 +76,14 @@ def city(city:str=Form(...)):
     return back('Город сохранён. Он учитывается при следующей проверке уведомлений.')
 
 
+@app.post('/api/city')
+def api_city(city:str=Form(...)):
+    from fastapi.responses import JSONResponse
+    try: storage.set_city(city)
+    except ValueError as exc: return JSONResponse({'detail':str(exc)},status_code=422)
+    return {'city':storage.read_state()['city']}
+
+
 @app.post('/subscriptions/{network}')
 def subscription(network:str,enabled:int=Form(...)):
     try: storage.subscribe(network,bool(enabled))

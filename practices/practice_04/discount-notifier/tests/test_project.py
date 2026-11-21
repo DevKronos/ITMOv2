@@ -251,3 +251,19 @@ def test_lifespan_background_collects_and_deduplicates(promo,monkeypatch):
         assert [r['new_notifications'] for r in results]==[1,0]
         assert len(calls)==2 and all(t!=threading.get_ident() for t in calls)
         assert len(storage.read_state()['notifications'])==1
+
+
+def test_api_city_saves_and_validates_existing_storage():
+    from fastapi.testclient import TestClient
+    from app.main import app
+    from app import storage
+    with TestClient(app) as client:
+        response = client.post('/api/city', data={'city': '  Санкт-Петербург  '})
+        assert response.status_code == 200
+        assert response.json() == {'city': 'Санкт-Петербург'}
+        assert storage.read_state()['city'] == 'Санкт-Петербург'
+        response = client.post('/api/city', data={'city': '   '})
+        assert response.status_code == 422
+        assert 'Введите название города' in response.json()['detail']
+        assert storage.read_state()['city'] == 'Санкт-Петербург'
+        assert client.post('/api/city', data={'city': 'Москва'}, headers={'Origin': 'https://example.com'}).status_code == 403
