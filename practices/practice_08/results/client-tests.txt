@@ -1,0 +1,15 @@
+
+> practice-08-client@1.0.0 test
+> vitest run
+
+
+ RUN  v4.0.18 /home/kotkronos/ITMOv2/practices/practice_08
+
+ ✓ tests/city.test.js (5 tests) 728ms
+     ✓ показывает пустое состояние и проверяет обязательное поле и пробелы  392ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  17:05:38
+   Duration  3.13s (transform 88ms, setup 0ms, import 451ms, tests 728ms, environment 1.32s)
+
